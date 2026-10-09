@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InvestSmart — Simulador de investimentos</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2d;--panel2:#18233a;--text:#eef3ff;--muted:#9aa9c4;--line:#293653;--green:#4ade80;--red:#fb7185;--blue:#7dd3fc;--gold:#fbbf24}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#0b1020,#101a2d);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial}
+header{padding:24px max(18px,calc((100% - 1180px)/2));border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-size:24px;font-weight:800;letter-spacing:-.5px}.brand span{color:var(--green)}.sub{color:var(--muted);font-size:13px}
+main{max-width:1180px;margin:auto;padding:24px 18px 50px}.notice{border:1px solid #66552c;background:#2b2518;color:#ffe7a3;padding:12px 14px;border-radius:12px;margin-bottom:22px;font-size:13px}
+h1{font-size:28px;line-height:1.2;margin:0 0 6px}h2{font-size:17px;margin:0 0 14px}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0}.card{background:rgba(18,26,45,.94);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.metric{font-size:25px;font-weight:750;margin-top:8px}.positive{color:var(--green)}.negative{color:var(--red)}.tag{font-size:12px;color:var(--blue);background:#132c40;padding:4px 8px;border-radius:20px;display:inline-block}
+.layout{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}input,select,button{font:inherit;border-radius:9px;border:1px solid var(--line);padding:10px 12px;background:#0d1527;color:var(--text)}input{min-width:0;flex:1}button{cursor:pointer;background:#1d3850;border-color:#315a75;font-weight:650}button:hover{filter:brightness(1.15)}button.primary{background:#166534;border-color:#15803d}button.danger{background:#4c1d2b;border-color:#7f1d36}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:12px;font-weight:600}.symbol{font-weight:750}.tiny{font-size:12px;color:var(--muted)}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.signal{font-size:12px;font-weight:700;padding:4px 8px;border-radius:7px;background:#183626;color:var(--green)}.signal.wait{background:#3a3017;color:var(--gold)}.signal.risk{background:#401d2a;color:var(--red)}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:13px;color:var(--muted)}.field input{width:100%;flex:auto}.result{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#0c1425}.footer{margin-top:20px;color:var(--muted);font-size:12px}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.layout{grid-template-columns:1fr}}@media(max-width:460px){.grid{grid-template-columns:1fr}.metric{font-size:22px}main{padding-top:18px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<header><div><div class="brand">Invest<span>Smart</span></div><div class="sub">Aprende. Analisa. Simula.</div></div><div class="tag">MODO DEMONSTRAÇÃO · DADOS FICTÍCIOS</div></header>
+<main>
+<div class="notice"><strong>Versão de demonstração:</strong> os preços e variações abaixo são fictícios, apenas para testar a aplicação. Não são cotações atuais nem recomendações financeiras.</div>
+<div><h1>O teu painel de investimentos</h1><div class="muted">Acompanha uma carteira simulada e aprende a interpretar o mercado.</div></div>
+<section class="grid">
+<div class="card"><div class="muted">Saldo simulado</div><div class="metric" id="cash">€10 000,00</div><div class="tiny">Capital inicial fictício</div></div>
+<div class="card"><div class="muted">Valor investido</div><div class="metric" id="invested">€0,00</div><div class="tiny">Posições simuladas</div></div>
+<div class="card"><div class="muted">Valor total</div><div class="metric" id="total">€10 000,00</div><div class="tiny">Saldo + posições</div></div>
+<div class="card"><div class="muted">Resultado simulado</div><div class="metric" id="pnl">€0,00</div><div class="tiny">Face ao capital inicial</div></div>
+</section>
+<div class="layout">
+<section class="card"><div class="row"><h2>Lista de acompanhamento</h2><span class="tiny">Exemplos fictícios</span></div>
+<div class="controls"><input id="search" placeholder="Pesquisar nome ou símbolo…" aria-label="Pesquisar ativos"><select id="filter" aria-label="Filtrar categoria"><option value="Todos">Todas as categorias</option><option>Ações</option><option>ETFs</option></select></div>
+<div class="tablewrap"><table><thead><tr><th>Ativo</th><th>Preço fictício</th><th>Variação</th><th>Indicador educativo</th><th></th></tr></thead><tbody id="assets"></tbody></table></div>
+<p class="tiny">Os indicadores são exemplos didáticos, não sinais calculados a partir do mercado.</p>
+</section>
+<section class="card"><h2>Simulador de compra</h2><div class="muted">Experimenta comprar unidades com dinheiro fictício.</div>
+<div class="field"><label for="asset">Ativo</label><select id="asset"></select></div>
+<div class="field"><label for="qty">Quantidade (unidades)</label><input id="qty" type="number" min="0.01" step="0.01" value="1"></div>
+<button class="primary" id="buy">Simular compra</button>
+<button class="danger" id="reset" style="margin-left:6px">Reiniciar simulação</button>
+<div class="result" id="message">Escolhe um ativo e uma quantidade para começar.</div>
+<div style="margin-top:18px"><h2>Como interpretar</h2><p><span class="signal">Tendência exemplo</span> indica apenas um cenário inventado para demonstração.</p><p><span class="signal wait">Aguardar exemplo</span> mostra como a aplicação poderá explicar uma situação sem sugerir uma decisão definitiva.</p><p><span class="signal risk">Risco</span> lembra que o valor de um investimento pode descer.</p></div>
+</section>
+</div>
+<div class="card" style="margin-top:14px"><div class="row"><h2>Carteira simulada</h2><span class="tiny">Não é ligada à XTB</span></div><div class="tablewrap"><table><thead><tr><th>Ativo</th><th>Quantidade</th><th>Preço fictício</th><th>Valor</th></tr></thead><tbody id="portfolio"><tr><td colspan="4" class="muted">Ainda não tens posições simuladas.</td></tr></tbody></table></div></div>
+<div class="footer">InvestSmart · Protótipo educativo local. Não constitui aconselhamento financeiro. As cotações são fictícias e não atualizadas. A versão inicial guarda os dados apenas nesta sessão do navegador.</div>
+</main>
+<script>
+const initial=[{symbol:"ACME",name:"Empresa Exemplo A",category:"Ações",price:125.40,change:1.8,indicator:"Tendência exemplo",kind:"up"},{symbol:"NOVA",name:"Empresa Exemplo B",category:"Ações",price:48.20,change:-1.2,indicator:"Aguardar exemplo",kind:"wait"},{symbol:"WIDE",name:"ETF Global Exemplo",category:"ETFs",price:102.70,change:0.6,indicator:"Tendência exemplo",kind:"up"},{symbol:"SAFE",name:"ETF Obrigações Exemplo",category:"ETFs",price:99.10,change:-0.2,indicator:"Risco a observar",kind:"risk"}];
+let assets=initial.map(x=>({...x})),cash=10000,positions={};
+const eur=n=>n.toLocaleString("pt-PT",{style:"currency",currency:"EUR"});
+function render(){document.getElementById("assets").innerHTML=assets.filter(a=>(document.getElementById("filter").value==="Todos"||a.category===document.getElementById("filter").value)&&(`${a.symbol} ${a.name}`.toLowerCase().includes(document.getElementById("search").value.toLowerCase()))).map(a=>`<tr><td><div class="symbol">${a.symbol}</div><div class="tiny">${a.name} · ${a.category}</div></td><td>${eur(a.price)}</td><td class="${a.change>=0?'positive':'negative'}">${a.change>0?'+':''}${a.change.toLocaleString('pt-PT')}%</td><td><span class="signal ${a.kind==='wait'?'wait':a.kind==='risk'?'risk':''}">${a.indicator}</span></td><td><button onclick="choose('${a.symbol}')">Selecionar</button></td></tr>`).join("");document.getElementById("asset").innerHTML=assets.map(a=>`<option value="${a.symbol}">${a.symbol} — ${a.name}</option>`).join("");let invested=0;document.getElementById("portfolio").innerHTML=Object.entries(positions).filter(([s,q])=>q>0).map(([s,q])=>{let a=assets.find(x=>x.symbol===s),v=a.price*q;invested+=v;return `<tr><td><b>${s}</b></td><td>${q.toLocaleString('pt-PT')}</td><td>${eur(a.price)}</td><td>${eur(v)}</td></tr>`}).join("")||'<tr><td colspan="4" class="muted">Ainda não tens posições simuladas.</td></tr>';let total=cash+invested;document.getElementById("cash").textContent=eur(cash);document.getElementById("invested").textContent=eur(invested);document.getElementById("total").textContent=eur(total);let pnl=total-10000;let p=document.getElementById("pnl");p.textContent=(pnl>0?"+":"")+eur(pnl);p.className="metric "+(pnl>=0?"positive":"negative")}
+function choose(s){document.getElementById("asset").value=s;document.getElementById("qty").focus()}
+document.getElementById("search").addEventListener("input",render);document.getElementById("filter").addEventListener("change",render);
+document.getElementById("buy").addEventListener("click",()=>{let s=document.getElementById("asset").value,q=Number(document.getElementById("qty").value),a=assets.find(x=>x.symbol===s),cost=a.price*q,m=document.getElementById("message");if(!Number.isFinite(q)||q<=0){m.textContent="Introduz uma quantidade maior do que zero.";return}if(cost>cash){m.textContent="Saldo simulado insuficiente. Reduz a quantidade.";return}cash-=cost;positions[s]=(positions[s]||0)+q;m.textContent=`Compra simulada de ${q} unidade(s) de ${s}, no valor de ${eur(cost)}. Nenhuma ordem real foi enviada.`;render()});
+document.getElementById("reset").addEventListener("click",()=>{cash=10000;positions={};document.getElementById("message").textContent="Simulação reiniciada. O saldo fictício voltou a €10 000.";render()});render();
+</script>
+</body></html>
