@@ -1,38 +1,38 @@
 {
   "source": "Alpha Vantage",
-  "updated_at": "2026-11-02T23:10:52.900748+00:00",
+  "updated_at": "2026-11-03T23:14:36.637430+00:00",
   "data_type": "daily_close",
   "assets": {
     "AAPL": {
       "name": "Apple",
       "category": "Ações",
-      "price": 344.63,
-      "change": -1.2267,
-      "date": "2026-10-30",
+      "price": 331.9,
+      "change": -1.8976,
+      "date": "2026-11-03",
       "currency": "USD"
     },
     "MSFT": {
       "name": "Microsoft",
       "category": "Ações",
-      "price": 507.12,
-      "change": -2.8338,
-      "date": "2026-11-02",
+      "price": 520.99,
+      "change": 2.7351,
+      "date": "2026-11-03",
       "currency": "USD"
     },
     "VOO": {
       "name": "Vanguard S&P 500 ETF",
       "category": "ETFs",
-      "price": 691.38,
-      "change": -0.4937,
-      "date": "2026-11-02",
+      "price": 693.46,
+      "change": 0.3096,
+      "date": "2026-11-03",
       "currency": "USD"
     },
     "QQQ": {
       "name": "Invesco QQQ ETF",
       "category": "ETFs",
-      "price": 681.09,
-      "change": -1.3614,
-      "date": "2026-11-02",
+      "price": 685.28,
+      "change": 0.6152,
+      "date": "2026-11-03",
       "currency": "USD"
     }
   }
